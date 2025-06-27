@@ -4,6 +4,7 @@ from pydantic import BaseModel
 import joblib
 import pandas as pd
 import numpy as np
+import os
 
 # Cargar modelo entrenado
 model = joblib.load("random_forest_model.pkl")
@@ -54,3 +55,8 @@ def predict(data: InputData):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("predict_api:app", host="0.0.0.0", port=port, reload=False)
