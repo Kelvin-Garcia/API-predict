@@ -5,12 +5,21 @@ import joblib
 import pandas as pd
 import numpy as np
 import os
+from fastapi.middleware.cors import CORSMiddleware
 
 # Cargar modelo entrenado
 model = joblib.load("random_forest_model.pkl")
 
 # Instancia de la app
 app = FastAPI(title="API de Predicción de Hipertensión")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Puedes reemplazar "*" por dominios específicos si lo prefieres
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Modelo de datos esperado
 target_features = [
